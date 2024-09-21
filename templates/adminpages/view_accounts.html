@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% csrf_token %}
+
+{% block title %}
+    View Accounts
+{% endblock %}
+
+{% block content %}
+    <h1>View Accounts</h1>
+    <table class="table">
+        <th> Username </th>
+        <th> First Name </th>
+        <th> Last Name </th>
+        <th> Email Address </th>
+        <th> Currency </th>
+        <th> Balance </th>
+        <th> Make Admin </th>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.name.username }}</td>
+                <td>{{ user.name.first_name }}</td>
+                <td>{{ user.name.last_name }}</td>
+                <td>{{ user.name.email }}</td>
+                <td>{{ user.currency }}</td>
+                <td>{{ user.money }}</td>
+                
+                {% if not user.name.is_superuser %}
+                <td><form method="post">{% csrf_token %}
+                    <button class="btn btn-info" name="make_super" value="{{ user.name.id }}">Make Admin</button></form></td>
+                {% else %}
+                    <td> Is Admin</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

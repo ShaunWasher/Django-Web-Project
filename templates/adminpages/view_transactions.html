@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% csrf_token %}
+
+{% block title %}
+    View Transactions
+{% endblock %}
+
+{% block content %}
+    <h1>View Transactions</h1>
+    <table class="table">
+        <th> Sent From </th>
+        <th> Sent Too </th>
+        <th> Currency </th>
+        <th> Amount </th>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.enter_your_username }}</td>
+                <td>{{ transaction.enter_destination_username }}</td>
+                <td>{{ transaction.currency }}</td>
+                <td>{{ transaction.enter_money_to_transfer }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

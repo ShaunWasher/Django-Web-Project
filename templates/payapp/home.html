@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% csrf_token %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <h1>Homepage</h1>
+    {% if user.is_authenticated %}
+        current balance: {{ user_money.currency }}{{ user_money.money|floatformat:2 }}
+        <br><br>
+        <h2>Pay Requests</h2>
+        <br><h3>Pending Incoming Requests</h3>
+        <table class="table">
+            {% for request in pending_requests %}
+                <tr>
+                    <td>{{ request.enter_your_username }}</td>
+                    <td>{{ request.currency }}{{ request.enter_money_to_transfer|floatformat:2 }}</td>
+                    <td><form method="post">{% csrf_token %}
+                        <button class="btn btn-success" name="pay" value="{{ request.id }}">Accept & pay</button></form></td>
+                    <td><form method="post">{% csrf_token %}
+                        <button class="btn btn-danger" name="reject" value="{{ request.id }}">Reject</button></form></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br><h3>Pending Outgoing Requests</h3>
+        <table>
+            {% for request in sent_requests %}
+                <tr>
+                    <td>{{ request.enter_destination_username }}</td>
+                    <td>{{ request.currency }}{{ request.enter_money_to_transfer|floatformat:2 }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

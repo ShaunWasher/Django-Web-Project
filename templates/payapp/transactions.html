@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    View Transactions
+{% endblock %}
+
+{% block content %}
+    <h1>View Transactions</h1>
+    {% if user.is_authenticated %}
+        current balance: {{ user_money.currency }}{{ user_money.money|floatformat:2 }}
+        <br><br>
+        <h2>recent transactions</h2><br>
+        <table class="table">
+            {% for transaction in user_transactions %}
+                {% if transaction.enter_your_username == user.username %}
+                    <tr>
+                        <td>{{ transaction.enter_destination_username }}</td>
+                        <td>-{{ transaction.currency }}{{ transaction.enter_money_to_transfer|floatformat:2 }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>{{ transaction.enter_your_username }}</td>
+                        <td>{{ transaction.currency }}{{ transaction.enter_money_to_transfer|floatformat:2 }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}
